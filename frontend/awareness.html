@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cybersecurity Awareness Center - CyberDefense 360</title>
+  <meta name="description" content="Interactive Defensive Cybersecurity Awareness Center with 15 structured educational modules covering phishing, passwords, ransomware, and human risk defenses.">
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <nav class="navbar">
+    <a href="/index.html" class="nav-brand">
+      <div class="brand-icon"><i class="fas fa-shield-halved"></i></div>
+      <div class="brand-text">
+        <h1>CyberDefense 360</h1>
+        <span class="brand-badge">Defensive Threat Intel & Awareness</span>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li class="nav-item"><a href="/index.html"><i class="fas fa-chart-pie"></i> Executive Summary</a></li>
+      <li class="nav-item"><a href="/threat-dashboard.html"><i class="fas fa-tachometer-alt"></i> Threat Dashboard</a></li>
+      <li class="nav-item"><a href="/threat-details.html?id=THR-2026-001"><i class="fas fa-search-plus"></i> SOC Investigation</a></li>
+      <li class="nav-item active"><a href="/awareness.html"><i class="fas fa-graduation-cap"></i> Awareness Center</a></li>
+      <li class="nav-item"><a href="/quiz.html"><i class="fas fa-tasks"></i> Security Quiz</a></li>
+    </ul>
+    <div class="nav-actions">
+      <div class="defensive-mode-tag">
+        <span class="pulse-dot"></span> Defensive Mode Active
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    
+    <!-- Page Header -->
+    <header class="page-header">
+      <div class="page-title">
+        <h2><i class="fas fa-user-shield" style="color:var(--accent-cyan);"></i> Cybersecurity Awareness Center</h2>
+        <p>Strengthen human-layer defenses with 15 foundational defensive security modules designed to help users recognize, avoid, and report modern cyber threats.</p>
+      </div>
+      <div>
+        <a href="/quiz.html" class="btn-primary"><i class="fas fa-tasks"></i> Take Awareness Quiz (32 Qs)</a>
+      </div>
+    </header>
+
+    <!-- Search & Filter Controls -->
+    <div class="glass-card" style="margin-bottom:2rem; padding:1.25rem;">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
+        <div style="flex:1; min-width:280px; position:relative;">
+          <i class="fas fa-search search-icon"></i>
+          <input type="text" id="moduleSearchInput" class="search-input" placeholder="Search modules by topic (e.g. phishing, MFA, passwords, ransomware, Wi-Fi)...">
+        </div>
+        <div style="display:flex; gap:0.75rem; align-items:center;">
+          <label style="font-size:0.82rem; color:var(--text-dim); font-weight:600;">Category:</label>
+          <select id="moduleCategorySelect" class="filter-select">
+            <option value="">All 15 Categories</option>
+            <option value="Phishing">Phishing</option>
+            <option value="Passwords">Passwords</option>
+            <option value="MFA">MFA & Authentication</option>
+            <option value="Social Engineering">Social Engineering</option>
+            <option value="Safe Browsing">Safe Browsing</option>
+            <option value="Wi-Fi">Wi-Fi & Networks</option>
+            <option value="Software Updates">Software Updates</option>
+            <option value="Ransomware">Ransomware</option>
+            <option value="USB Safety">Removable Media / USB</option>
+            <option value="Data Privacy">Data Privacy</option>
+            <option value="Mobile Security">Mobile Security</option>
+            <option value="Remote Work">Remote Work</option>
+            <option value="Cloud Security">Cloud Security</option>
+            <option value="Incident Reporting">Incident Reporting</option>
+            <option value="AI Threats">AI Threats & Deepfakes</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- 15 Modules Cards Grid -->
+    <div id="modulesContainer" class="modules-grid">
+      <!-- Dynamically loaded via awareness.js -->
+    </div>
+
+  </main>
+
+  <!-- Detailed Module Modal -->
+  <div id="moduleDetailModal" class="modal-backdrop">
+    <div class="modal-container">
+      <button class="modal-close-btn" onclick="closeModuleModal()"><i class="fas fa-times"></i></button>
+      <div id="moduleModalBody">
+        <!-- Module details injected via awareness.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-disclaimer">
+      DEFENSIVE CYBERSECURITY EDUCATIONAL PLATFORM &bull; STRICTLY SANITIZED & SYNTHETIC TELEMETRY
+    </div>
+    <p>This project does not execute malware, exploit vulnerabilities, or contact external systems. All indicators are analyzed passively as data.</p>
+  </footer>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/awareness.js"></script>
+</body>
+</html>
