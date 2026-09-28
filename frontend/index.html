@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cybersecurity Awareness & Threat Intelligence Dashboard</title>
+  <meta name="description" content="Defensive Cybersecurity & Threat Intelligence SOC Platform combining CTI analysis, IOC enrichment, MITRE ATT&CK mapping, and interactive security awareness training.">
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <nav class="navbar">
+    <a href="/index.html" class="nav-brand">
+      <div class="brand-icon"><i class="fas fa-shield-halved"></i></div>
+      <div class="brand-text">
+        <h1>CyberDefense 360</h1>
+        <span class="brand-badge">Defensive Threat Intel & Awareness</span>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li class="nav-item active"><a href="/index.html"><i class="fas fa-chart-pie"></i> Executive Summary</a></li>
+      <li class="nav-item"><a href="/threat-dashboard.html"><i class="fas fa-tachometer-alt"></i> Threat Dashboard</a></li>
+      <li class="nav-item"><a href="/threat-details.html?id=THR-2026-001"><i class="fas fa-search-plus"></i> SOC Investigation</a></li>
+      <li class="nav-item"><a href="/awareness.html"><i class="fas fa-graduation-cap"></i> Awareness Center</a></li>
+      <li class="nav-item"><a href="/quiz.html"><i class="fas fa-tasks"></i> Security Quiz</a></li>
+    </ul>
+    <div class="nav-actions">
+      <div class="defensive-mode-tag">
+        <span class="pulse-dot"></span> Defensive Mode Active
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    
+    <!-- Page Header -->
+    <header class="page-header">
+      <div class="page-title">
+        <h2><i class="fas fa-chart-line" style="color:var(--accent-cyan);"></i> Executive Cybersecurity Summary</h2>
+        <p>Strategic cybersecurity overview synthesizing defensive threat intelligence telemetry, perimeter exposure, and human risk readiness for security leadership.</p>
+      </div>
+      <div>
+        <a href="/threat-dashboard.html" class="btn-primary"><i class="fas fa-desktop"></i> Open SOC Console</a>
+      </div>
+    </header>
+
+    <!-- Executive Headline Banner -->
+    <div class="glass-card" style="margin-bottom: 2rem; border-left: 5px solid var(--accent-cyan); background: linear-gradient(135deg, rgba(6, 182, 212, 0.08), rgba(59, 130, 246, 0.05));">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:1rem;">
+        <div>
+          <span style="font-size:0.75rem; text-transform:uppercase; letter-spacing:0.08em; font-weight:700; color:var(--accent-cyan);">Threat Posture Briefing</span>
+          <h3 id="execReportTitle" style="font-size:1.35rem; color:#fff; font-weight:800; margin-top:0.25rem;">Executive Defensive Cybersecurity Posture</h3>
+          <p id="execHeadline" style="color:var(--text-main); font-size:0.95rem; margin-top:0.4rem; max-width:1100px; line-height:1.6;">
+            Loading posture analytics...
+          </p>
+        </div>
+        <div>
+          <span class="badge badge-high" style="padding:0.4rem 0.85rem; font-size:0.8rem;"><i class="fas fa-shield-virus"></i> Status: Elevated Vigilance</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Executive KPI Grid -->
+    <section class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon-wrapper red"><i class="fas fa-radiation"></i></div>
+        <div class="stat-content">
+          <span class="stat-label">Critical Threats</span>
+          <span class="stat-value" id="execCritCount">--</span>
+          <span class="stat-subtext">Immediate prioritization</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon-wrapper orange"><i class="fas fa-exclamation-circle"></i></div>
+        <div class="stat-content">
+          <span class="stat-label">High Severity</span>
+          <span class="stat-value" id="execHighCount">--</span>
+          <span class="stat-subtext">Active monitoring telemetry</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon-wrapper cyan"><i class="fas fa-bell"></i></div>
+        <div class="stat-content">
+          <span class="stat-label">Active Alerts</span>
+          <span class="stat-value" id="execActiveAlerts">--</span>
+          <span class="stat-subtext">Deduplicated SOC queue</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon-wrapper purple"><i class="fas fa-bug"></i></div>
+        <div class="stat-content">
+          <span class="stat-label">Vulnerabilities Tracked</span>
+          <span class="stat-value" id="execTrackedCves">--</span>
+          <span class="stat-subtext">Monitored CVE exposures</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon-wrapper green"><i class="fas fa-user-graduate"></i></div>
+        <div class="stat-content">
+          <span class="stat-label">Avg Awareness Score</span>
+          <span class="stat-value" id="execAwarenessScore">--%</span>
+          <span class="stat-subtext">Employee readiness index</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Two Column Insights Grid -->
+    <div class="charts-grid-2col">
+      
+      <!-- Top Threat Categories -->
+      <div class="glass-card">
+        <div class="card-header">
+          <div class="card-title"><i class="fas fa-bullseye"></i> Top Observed Threat Categories</div>
+          <span style="font-size:0.75rem; color:var(--text-dim);">By Ingestion Volume</span>
+        </div>
+        <div id="topCategoriesContainer" style="display:flex; flex-direction:column; gap:0.85rem;">
+          <div style="text-align:center; padding:1.5rem; color:var(--text-dim);"><i class="fas fa-spinner fa-spin"></i> Loading categories...</div>
+        </div>
+      </div>
+
+      <!-- Critical Vulnerability Priorities -->
+      <div class="glass-card">
+        <div class="card-header">
+          <div class="card-title"><i class="fas fa-fire-alt" style="color:var(--sev-critical);"></i> Critical CVE Remediation Priorities</div>
+          <span style="font-size:0.75rem; color:var(--text-dim);">Contextual Priority Score</span>
+        </div>
+        <div id="criticalVulnsContainer" style="display:flex; flex-direction:column; gap:0.85rem;">
+          <div style="text-align:center; padding:1.5rem; color:var(--text-dim);"><i class="fas fa-spinner fa-spin"></i> Loading vulnerabilities...</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Human Defense & Strategic Priorities -->
+    <div class="charts-grid-2col">
+      
+      <!-- Human Defense Weaknesses -->
+      <div class="glass-card">
+        <div class="card-header">
+          <div class="card-title"><i class="fas fa-users-cog"></i> Human Layer Risk Assessment</div>
+          <span class="badge badge-medium">Security Readiness</span>
+        </div>
+        <div id="humanWeaknessesContainer" style="display:flex; flex-direction:column; gap:0.85rem;">
+          <div style="background:var(--bg-secondary); border-left:4px solid #f97316; padding:0.9rem; border-radius:4px;">
+            <div style="font-weight:700; color:#fff; font-size:0.9rem;">Phishing & Deceptive Ingress</div>
+            <div style="color:var(--text-muted); font-size:0.82rem; margin-top:0.2rem;">Accounts for primary initial access attempts. Recommended: Mandatory interactive phishing simulation.</div>
+          </div>
+          <div style="background:var(--bg-secondary); border-left:4px solid #eab308; padding:0.9rem; border-radius:4px;">
+            <div style="font-weight:700; color:#fff; font-size:0.9rem;">MFA Fatigue & Push Exhaustion</div>
+            <div style="color:var(--text-muted); font-size:0.82rem; margin-top:0.2rem;">Adversaries exploit mobile approval fatigue. Recommended: Deploy number matching passkeys.</div>
+          </div>
+          <div style="background:var(--bg-secondary); border-left:4px solid #06b6d4; padding:0.9rem; border-radius:4px;">
+            <div style="font-weight:700; color:#fff; font-size:0.9rem;">Social Engineering & Pretexting</div>
+            <div style="color:var(--text-muted); font-size:0.82rem; margin-top:0.2rem;">Executive impersonation attempts observed. Recommended: Establish out-of-band wire verification.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Strategic Recommended Defensive Actions -->
+      <div class="glass-card">
+        <div class="card-header">
+          <div class="card-title"><i class="fas fa-clipboard-check" style="color:var(--sev-low);"></i> Strategic Defensive Priorities</div>
+          <span style="font-size:0.75rem; color:var(--text-dim);">Action Plan</span>
+        </div>
+        <div id="strategicPrioritiesContainer" style="display:flex; flex-direction:column; gap:0.75rem;">
+          <div style="display:flex; align-items:flex-start; gap:0.75rem; font-size:0.88rem; color:var(--text-muted);">
+            <i class="fas fa-check-circle" style="color:#10b981; margin-top:0.2rem;"></i>
+            <span><strong>Perimeter Patch Acceleration:</strong> Prioritize emergency patching on internet-facing VPN/SSL gateways (CVE-2024-3400, CVE-2024-21762).</span>
+          </div>
+          <div style="display:flex; align-items:flex-start; gap:0.75rem; font-size:0.88rem; color:var(--text-muted);">
+            <i class="fas fa-check-circle" style="color:#10b981; margin-top:0.2rem;"></i>
+            <span><strong>FIDO2 Phishing Resistance:</strong> Transition privileged accounts to WebAuthn / hardware keys to neutralize reverse-proxy credential theft.</span>
+          </div>
+          <div style="display:flex; align-items:flex-start; gap:0.75rem; font-size:0.88rem; color:var(--text-muted);">
+            <i class="fas fa-check-circle" style="color:#10b981; margin-top:0.2rem;"></i>
+            <span><strong>SOC Alert De-duplication:</strong> Enforce automated correlation thresholds to eliminate analyst fatigue and reduce triage dwell time.</span>
+          </div>
+          <div style="display:flex; align-items:flex-start; gap:0.75rem; font-size:0.88rem; color:var(--text-muted);">
+            <i class="fas fa-check-circle" style="color:#10b981; margin-top:0.2rem;"></i>
+            <span><strong>Blameless Reporting Culture:</strong> Incentivize prompt self-disclosure of accidental clicks to allow SOC rapid containment within minutes.</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Core Defensive Concepts Matrix -->
+    <div class="glass-card" style="margin-top:1rem;">
+      <div class="card-header">
+        <div class="card-title"><i class="fas fa-layer-group"></i> Critical Defensive Distinctions (SOC Taxonomy)</div>
+        <span style="font-size:0.75rem; color:var(--text-dim);">Defensive Knowledge Architecture</span>
+      </div>
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap:1rem;">
+        <div style="background:var(--bg-secondary); padding:1.15rem; border-radius:var(--radius-sm); border:1px solid var(--border-color);">
+          <div style="font-size:0.75rem; font-weight:700; color:var(--accent-cyan); text-transform:uppercase;">1. OBSERVATION</div>
+          <div style="font-size:0.85rem; color:var(--text-muted); margin-top:0.35rem;">A raw piece of telemetry or log entry (e.g., an inbound SYN connection) without confirmed context or malice.</div>
+        </div>
+        <div style="background:var(--bg-secondary); padding:1.15rem; border-radius:var(--radius-sm); border:1px solid var(--border-color);">
+          <div style="font-size:0.75rem; font-weight:700; color:#3b82f6; text-transform:uppercase;">2. INDICATOR (IOC)</div>
+          <div style="font-size:0.85rem; color:var(--text-muted); margin-top:0.35rem;">An artifact (IP, domain, hash, URL) that may indicate malicious activity. <em>IOC Match &ne; Confirmed Breach.</em></div>
+        </div>
+        <div style="background:var(--bg-secondary); padding:1.15rem; border-radius:var(--radius-sm); border:1px solid var(--border-color);">
+          <div style="font-size:0.75rem; font-weight:700; color:#eab308; text-transform:uppercase;">3. ALERT</div>
+          <div style="font-size:0.85rem; color:var(--text-muted); margin-top:0.35rem;">A notification generated when telemetry breaches a predefined risk or confidence threshold requiring human triage.</div>
+        </div>
+        <div style="background:var(--bg-secondary); padding:1.15rem; border-radius:var(--radius-sm); border:1px solid var(--border-color);">
+          <div style="font-size:0.75rem; font-weight:700; color:#f97316; text-transform:uppercase;">4. THREAT</div>
+          <div style="font-size:0.85rem; color:var(--text-muted); margin-top:0.35rem;">An adversary or hostile capability possessing the intent and potential to harm an organizational asset.</div>
+        </div>
+        <div style="background:var(--bg-secondary); padding:1.15rem; border-radius:var(--radius-sm); border:1px solid var(--border-color);">
+          <div style="font-size:0.75rem; font-weight:700; color:#ef4444; text-transform:uppercase;">5. INCIDENT</div>
+          <div style="font-size:0.85rem; color:var(--text-muted); margin-top:0.35rem;">A confirmed security event that actually compromises confidentiality, integrity, or availability requiring formal response.</div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-disclaimer">
+      DEFENSIVE CYBERSECURITY EDUCATIONAL PLATFORM &bull; STRICTLY SANITIZED & SYNTHETIC TELEMETRY
+    </div>
+    <p>This project does not execute malware, exploit vulnerabilities, or contact external systems. All indicators are analyzed passively as data.</p>
+  </footer>
+
+  <script src="/js/api.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      try {
+        const summary = await API.getExecutiveSummary();
+        document.getElementById('execReportTitle').textContent = summary.report_title;
+        document.getElementById('execHeadline').textContent = summary.executive_headline;
+        
+        document.getElementById('execCritCount').textContent = summary.key_metrics.critical_threats.toLocaleString();
+        document.getElementById('execHighCount').textContent = summary.key_metrics.high_threats.toLocaleString();
+        document.getElementById('execActiveAlerts').textContent = summary.key_metrics.active_perimeter_alerts.toLocaleString();
+        document.getElementById('execTrackedCves').textContent = summary.key_metrics.tracked_cves.toLocaleString();
+        document.getElementById('execAwarenessScore').textContent = `${summary.key_metrics.average_awareness_score}%`;
+
+        // Render top categories
+        const catBox = document.getElementById('topCategoriesContainer');
+        if (catBox && summary.top_threat_categories) {
+          catBox.innerHTML = summary.top_threat_categories.map(c => `
+            <div style="display:flex; justify-content:space-between; align-items:center; background:var(--bg-secondary); padding:0.85rem 1rem; border-radius:var(--radius-sm);">
+              <span style="font-weight:600; color:#fff;">${c.category}</span>
+              <span class="badge badge-info">${c.count} indicators</span>
+            </div>
+          `).join('');
+        }
+
+        // Render critical vulns
+        const vulnBox = document.getElementById('criticalVulnsContainer');
+        if (vulnBox && summary.critical_vulnerability_priorities) {
+          vulnBox.innerHTML = summary.critical_vulnerability_priorities.map(v => `
+            <div style="display:flex; justify-content:space-between; align-items:center; background:var(--bg-secondary); padding:0.85rem 1rem; border-radius:var(--radius-sm);">
+              <div>
+                <span style="font-weight:700; color:#fff; font-family:'JetBrains Mono';">${v.cve_id}</span>
+                <span style="font-size:0.75rem; color:var(--text-dim); margin-left:0.5rem;">${v.product_category}</span>
+              </div>
+              <div style="display:flex; align-items:center; gap:0.5rem;">
+                <span class="badge badge-critical">CVSS ${v.cvss_score}</span>
+                <span class="score-pill" style="color:#ef4444;">Priority ${v.priority_score}</span>
+              </div>
+            </div>
+          `).join('');
+        }
+
+      } catch (err) {
+        console.error('Failed to load executive summary:', err);
+      }
+    });
+  </script>
+</body>
+</html>
