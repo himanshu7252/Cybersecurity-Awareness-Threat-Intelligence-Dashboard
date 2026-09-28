@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SOC Threat Investigation Dossier - CyberDefense 360</title>
+  <meta name="description" content="In-depth SOC Threat Investigation view displaying threat timeline, ATT&CK behavioral mappings, analyst notes, and correlation clusters.">
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <nav class="navbar">
+    <a href="/index.html" class="nav-brand">
+      <div class="brand-icon"><i class="fas fa-shield-halved"></i></div>
+      <div class="brand-text">
+        <h1>CyberDefense 360</h1>
+        <span class="brand-badge">Defensive Threat Intel & Awareness</span>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li class="nav-item"><a href="/index.html"><i class="fas fa-chart-pie"></i> Executive Summary</a></li>
+      <li class="nav-item"><a href="/threat-dashboard.html"><i class="fas fa-tachometer-alt"></i> Threat Dashboard</a></li>
+      <li class="nav-item active"><a href="/threat-details.html?id=THR-2026-001"><i class="fas fa-search-plus"></i> SOC Investigation</a></li>
+      <li class="nav-item"><a href="/awareness.html"><i class="fas fa-graduation-cap"></i> Awareness Center</a></li>
+      <li class="nav-item"><a href="/quiz.html"><i class="fas fa-tasks"></i> Security Quiz</a></li>
+    </ul>
+    <div class="nav-actions">
+      <div class="defensive-mode-tag">
+        <span class="pulse-dot"></span> Defensive Mode Active
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main-content" id="detailsContainer">
+    
+    <!-- Breadcrumb & Back -->
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
+      <a href="/threat-dashboard.html" class="btn-secondary" style="font-size:0.82rem;">
+        <i class="fas fa-arrow-left"></i> Back to SOC Threat Feed
+      </a>
+      <div style="font-size:0.8rem; color:var(--text-dim); font-family:'JetBrains Mono';">
+        INVESTIGATION CASE REF: <span id="detailThreatId" style="color:var(--accent-cyan); font-weight:700;">THR-2026-001</span>
+      </div>
+    </div>
+
+    <!-- Threat Master Header -->
+    <div class="glass-card" style="margin-bottom:1.5rem;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:1rem;">
+        <div>
+          <div style="display:flex; align-items:center; gap:0.65rem; margin-bottom:0.35rem;">
+            <span id="detailCategory" class="badge badge-info" style="font-size:0.75rem;">PHISHING</span>
+            <span id="detailSeverityBadge" class="badge badge-high">HIGH</span>
+            <span id="detailStatusBadge" class="status-tag status-monitoring">MONITORING</span>
+          </div>
+          <h2 id="detailThreatName" style="font-size:1.8rem; font-weight:800; color:#fff; letter-spacing:-0.02em;">Synthetic Credential Phishing Campaign</h2>
+          <p id="detailDescription" style="color:var(--text-muted); font-size:0.95rem; margin-top:0.4rem; max-width:900px; line-height:1.6;">
+            Loading threat description...
+          </p>
+        </div>
+        <div style="display:flex; gap:1rem; align-items:center;">
+          <div style="background:var(--bg-secondary); border:1px solid var(--border-color); border-radius:var(--radius-sm); padding:0.85rem 1.25rem; text-align:center;">
+            <div style="font-size:0.72rem; color:var(--text-dim); font-weight:700;">RISK SCORE</div>
+            <div id="detailRiskScore" style="font-size:1.6rem; font-weight:800; color:#f97316; font-family:'JetBrains Mono';">78/100</div>
+          </div>
+          <div style="background:var(--bg-secondary); border:1px solid var(--border-color); border-radius:var(--radius-sm); padding:0.85rem 1.25rem; text-align:center;">
+            <div style="font-size:0.72rem; color:var(--text-dim); font-weight:700;">CONFIDENCE</div>
+            <div id="detailConfidence" style="font-size:1.6rem; font-weight:800; color:#3b82f6; font-family:'JetBrains Mono';">85%</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Metadata Grid -->
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:1rem; margin-top:1.5rem; padding-top:1.25rem; border-top:1px solid var(--border-color);">
+        <div>
+          <span style="font-size:0.75rem; color:var(--text-dim); text-transform:uppercase;">Source & Reliability:</span>
+          <div id="detailSource" style="font-weight:600; color:#fff; font-size:0.88rem; margin-top:0.2rem;">Internal SOC (A – Highly Reliable)</div>
+        </div>
+        <div>
+          <span style="font-size:0.75rem; color:var(--text-dim); text-transform:uppercase;">First Observed:</span>
+          <div id="detailFirstSeen" style="font-weight:600; color:#fff; font-size:0.88rem; margin-top:0.2rem; font-family:'JetBrains Mono';">2026-09-01 08:00 UTC</div>
+        </div>
+        <div>
+          <span style="font-size:0.75rem; color:var(--text-dim); text-transform:uppercase;">Last Telemetry Sighting:</span>
+          <div id="detailLastSeen" style="font-weight:600; color:#fff; font-size:0.88rem; margin-top:0.2rem; font-family:'JetBrains Mono';">2026-09-28 10:00 UTC</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2 Column Layout: Left Column = IOCs & ATT&CK & Actions; Right Column = Timeline & Notes -->
+    <div style="display:grid; grid-template-columns: 1.2fr 1fr; gap:1.5rem; align-items:start;">
+      
+      <!-- Left Column -->
+      <div style="display:flex; flex-direction:column; gap:1.5rem;">
+        
+        <!-- Associated Indicators -->
+        <div class="glass-card">
+          <div class="card-header">
+            <div class="card-title"><i class="fas fa-fingerprint"></i> Associated Network & Host Indicators</div>
+            <span style="font-size:0.75rem; color:var(--text-dim);">Safe Synthetic Indicators</span>
+          </div>
+          <div class="table-responsive">
+            <table class="cyber-table">
+              <thead>
+                <tr>
+                  <th>Type</th>
+                  <th>Indicator Value</th>
+                  <th>First Seen</th>
+                  <th>Last Seen</th>
+                </tr>
+              </thead>
+              <tbody id="indicatorsTableBody">
+                <!-- Populated via details.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- MITRE ATT&CK Mappings -->
+        <div class="glass-card">
+          <div class="card-header">
+            <div class="card-title"><i class="fas fa-crosshairs" style="color:var(--accent-purple);"></i> MITRE ATT&CK Behavioral Mapping</div>
+            <span style="font-size:0.75rem; color:var(--text-dim);">Adversary TTP Alignment</span>
+          </div>
+          <div id="attackMappingsContainer" style="display:flex; flex-direction:column; gap:0.75rem;">
+            <!-- Populated via details.js -->
+          </div>
+          <div style="margin-top:1rem; font-size:0.78rem; color:var(--text-dim); line-height:1.5;">
+            <i class="fas fa-info-circle"></i> ATT&CK mappings explain <em>HOW</em> behaviors execute. Indicators indicate <em>WHAT</em> artifact was observed. Mappings are assigned only when justified by telemetry.
+          </div>
+        </div>
+
+        <!-- Recommended Defensive Actions -->
+        <div class="glass-card">
+          <div class="card-header">
+            <div class="card-title"><i class="fas fa-shield-alt" style="color:#10b981;"></i> Standard Operating Procedure: Defensive Actions</div>
+            <span class="badge badge-low">Tier 1 SOC SOP</span>
+          </div>
+          <ul id="recommendedActionsList" style="padding-left:1.25rem; font-size:0.88rem; color:var(--text-main); line-height:1.7;">
+            <!-- Populated via details.js -->
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- Right Column -->
+      <div style="display:flex; flex-direction:column; gap:1.5rem;">
+        
+        <!-- Correlated Threat Cluster -->
+        <div class="glass-card">
+          <div class="card-header">
+            <div class="card-title"><i class="fas fa-project-diagram" style="color:var(--accent-cyan);"></i> Correlated Cluster</div>
+            <span id="clusterTitle" style="font-size:0.75rem; color:var(--text-dim);">Cluster items</span>
+          </div>
+          <div id="clusterContainer" style="display:flex; flex-direction:column; gap:0.6rem;">
+            <!-- Populated via details.js -->
+          </div>
+          <div style="margin-top:0.75rem; font-size:0.75rem; color:var(--text-dim);">
+            <i class="fas fa-shield-alt"></i> Cluster members correlated by category and temporal proximity. Correlation proves evidence linkage, not guaranteed attribution.
+          </div>
+        </div>
+
+        <!-- Threat Lifecycle Timeline -->
+        <div class="glass-card">
+          <div class="card-header">
+            <div class="card-title"><i class="fas fa-history" style="color:var(--accent-blue);"></i> Threat Lifecycle Timeline</div>
+            <span style="font-size:0.75rem; color:var(--text-dim);">Chronological Milestones</span>
+          </div>
+          <div id="threatTimeline" class="timeline-list">
+            <!-- Populated via details.js -->
+          </div>
+        </div>
+
+        <!-- Analyst Investigation Notes -->
+        <div class="glass-card">
+          <div class="card-header">
+            <div class="card-title"><i class="fas fa-comment-dots"></i> SOC Analyst Case Notes</div>
+            <span style="font-size:0.75rem; color:var(--text-dim);">Observation Log</span>
+          </div>
+          <div id="analystNotesList">
+            <!-- Populated via details.js -->
+          </div>
+
+          <!-- Add Note Form -->
+          <form id="addNoteForm" style="margin-top:1.25rem; padding-top:1rem; border-top:1px solid var(--border-color);">
+            <div style="margin-bottom:0.75rem;">
+              <input type="text" id="analystNameInput" class="search-input" style="padding:0.5rem 0.85rem; font-size:0.85rem;" placeholder="Analyst Call Sign / ID (e.g. SOC-Alex)" required>
+            </div>
+            <div style="margin-bottom:0.75rem;">
+              <textarea id="noteTextInput" class="search-input" style="padding:0.65rem 0.85rem; font-size:0.85rem; min-height:80px; resize:vertical;" placeholder="Add factual observation notes, containment steps, or triage rationale..." required></textarea>
+            </div>
+            <button type="submit" class="btn-primary" style="padding:0.5rem 1rem; font-size:0.85rem; width:100%; justify-content:center;">
+              <i class="fas fa-pen"></i> Record Investigation Note
+            </button>
+          </form>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-disclaimer">
+      DEFENSIVE CYBERSECURITY EDUCATIONAL PLATFORM &bull; STRICTLY SANITIZED & SYNTHETIC TELEMETRY
+    </div>
+    <p>This project does not execute malware, exploit vulnerabilities, or contact external systems. All indicators are analyzed passively as data.</p>
+  </footer>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/details.js"></script>
+</body>
+</html>
