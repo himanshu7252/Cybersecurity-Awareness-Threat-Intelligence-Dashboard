@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Security Awareness Assessment Quiz - CyberDefense 360</title>
+  <meta name="description" content="Comprehensive 32-question defensive cybersecurity awareness quiz assessing phishing, MFA, passwords, ransomware, and human risk defenses.">
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <nav class="navbar">
+    <a href="/index.html" class="nav-brand">
+      <div class="brand-icon"><i class="fas fa-shield-halved"></i></div>
+      <div class="brand-text">
+        <h1>CyberDefense 360</h1>
+        <span class="brand-badge">Defensive Threat Intel & Awareness</span>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li class="nav-item"><a href="/index.html"><i class="fas fa-chart-pie"></i> Executive Summary</a></li>
+      <li class="nav-item"><a href="/threat-dashboard.html"><i class="fas fa-tachometer-alt"></i> Threat Dashboard</a></li>
+      <li class="nav-item"><a href="/threat-details.html?id=THR-2026-001"><i class="fas fa-search-plus"></i> SOC Investigation</a></li>
+      <li class="nav-item"><a href="/awareness.html"><i class="fas fa-graduation-cap"></i> Awareness Center</a></li>
+      <li class="nav-item active"><a href="/quiz.html"><i class="fas fa-tasks"></i> Security Quiz</a></li>
+    </ul>
+    <div class="nav-actions">
+      <div class="defensive-mode-tag">
+        <span class="pulse-dot"></span> Defensive Mode Active
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    
+    <div class="quiz-container">
+
+      <!-- Quiz Form Section -->
+      <div id="quizFormSection">
+        <header class="page-header" style="margin-bottom:1.5rem;">
+          <div class="page-title">
+            <h2><i class="fas fa-clipboard-check" style="color:var(--accent-cyan);"></i> Defensive Security Awareness Assessment</h2>
+            <p>Evaluate your threat recognition capabilities across 10 security domains: Phishing, Passwords, MFA, Social Engineering, Safe Browsing, Wi-Fi, Ransomware, Privacy, Mobile, and Incident Reporting.</p>
+          </div>
+        </header>
+
+        <!-- Progress Bar Card -->
+        <div class="glass-card" style="margin-bottom:2rem; padding:1.25rem;">
+          <div class="quiz-progress-header">
+            <span style="font-size:0.85rem; font-weight:700; color:#fff;">Assessment Progress</span>
+            <span style="font-size:0.82rem; color:var(--accent-cyan); font-family:'JetBrains Mono';">
+              <span id="answeredQuestionsCount">0</span> of <span id="totalQuestionsCount">32</span> Completed
+            </span>
+          </div>
+          <div class="progress-bar-bg">
+            <div id="quizProgressFill" class="progress-bar-fill"></div>
+          </div>
+          <div style="font-size:0.75rem; color:var(--text-dim);">
+            <i class="fas fa-info-circle"></i> Click your chosen answer for each question. You may change your selection anytime before final submission.
+          </div>
+        </div>
+
+        <!-- Questions List Container -->
+        <div id="quizQuestionsContainer">
+          <!-- Injected via quiz.js -->
+        </div>
+
+        <!-- Submit Button Card -->
+        <div class="glass-card" style="text-align:center; padding:2rem; margin-top:2rem;">
+          <button id="submitQuizBtn" class="btn-primary" style="margin: 0 auto; padding: 1rem 2.5rem; font-size:1.05rem;">
+            <i class="fas fa-paper-plane"></i> Submit Assessment for Grading
+          </button>
+        </div>
+      </div>
+
+      <!-- Quiz Results Section (Hidden until submitted) -->
+      <div id="quizResultsSection" style="display:none;">
+        
+        <header class="page-header" style="margin-bottom:1.5rem;">
+          <div class="page-title">
+            <h2><i class="fas fa-award" style="color:var(--accent-cyan);"></i> Awareness Assessment Results</h2>
+            <p>Detailed performance breakdown, competency grading, and personalized remedial learning recommendations.</p>
+          </div>
+        </header>
+
+        <!-- Overall Score Card -->
+        <div id="resultScoreCard" class="glass-card" style="margin-bottom:2rem; text-align:center; padding:2.5rem 1.5rem; border:2px solid var(--accent-cyan);">
+          <span style="font-size:0.78rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--accent-cyan); font-weight:700;">Overall Awareness Score</span>
+          <div id="resultOverallScore" style="font-size:4rem; font-weight:900; color:#fff; font-family:'JetBrains Mono'; margin:0.5rem 0;">--%</div>
+          <div id="resultGrade" style="font-size:1.5rem; font-weight:800; color:var(--accent-cyan); margin-bottom:0.5rem;">Evaluating...</div>
+          <div id="resultAnswerStats" style="font-size:0.9rem; color:var(--text-muted);">-- of -- questions answered correctly</div>
+          <div style="margin-top:1.5rem; font-size:0.78rem; color:var(--text-dim); max-width:600px; margin-left:auto; margin-right:auto; line-height:1.5;">
+            <em>Notice: This score is strictly an educational indicator to identify security knowledge gaps. It does not represent employee fitness, performance, or operational competency.</em>
+          </div>
+        </div>
+
+        <!-- Category Breakdown & Recommendations Grid -->
+        <div class="charts-grid-2col" style="margin-bottom:2rem;">
+          
+          <!-- Category Breakdown -->
+          <div class="glass-card">
+            <div class="card-header">
+              <div class="card-title"><i class="fas fa-chart-pie"></i> Category Competency Breakdown</div>
+            </div>
+            <div id="categoryBreakdownContainer">
+              <!-- Rendered via quiz.js -->
+            </div>
+          </div>
+
+          <!-- Personalized Learning Recommendations -->
+          <div class="glass-card">
+            <div class="card-header">
+              <div class="card-title"><i class="fas fa-lightbulb" style="color:#eab308;"></i> Targeted Learning Recommendations</div>
+            </div>
+            <div id="recommendationsContainer">
+              <!-- Rendered via quiz.js -->
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Detailed Question Review List -->
+        <div class="glass-card">
+          <div class="card-header">
+            <div class="card-title"><i class="fas fa-list-check"></i> Comprehensive Question Review & Rationale</div>
+            <span style="font-size:0.75rem; color:var(--text-dim);">Detailed Educational Explanations</span>
+          </div>
+          <div id="detailedReviewContainer">
+            <!-- Rendered via quiz.js -->
+          </div>
+        </div>
+
+        <!-- Retake Button -->
+        <div style="text-align:center; margin-top:2rem;">
+          <a href="/quiz.html" class="btn-secondary" style="font-size:0.95rem; padding:0.8rem 1.8rem;">
+            <i class="fas fa-redo"></i> Retake Assessment
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-disclaimer">
+      DEFENSIVE CYBERSECURITY EDUCATIONAL PLATFORM &bull; STRICTLY SANITIZED & SYNTHETIC TELEMETRY
+    </div>
+    <p>This project does not execute malware, exploit vulnerabilities, or contact external systems. All indicators are analyzed passively as data.</p>
+  </footer>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/quiz.js"></script>
+</body>
+</html>
