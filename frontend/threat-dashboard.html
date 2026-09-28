@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SOC Threat Intelligence Dashboard - CyberDefense 360</title>
+  <meta name="description" content="Tier-1/2 SOC Threat Intelligence Console featuring IOC enrichment, risk scoring, ATT&CK mapping, and visual analytics.">
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <nav class="navbar">
+    <a href="/index.html" class="nav-brand">
+      <div class="brand-icon"><i class="fas fa-shield-halved"></i></div>
+      <div class="brand-text">
+        <h1>CyberDefense 360</h1>
+        <span class="brand-badge">Defensive Threat Intel & Awareness</span>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li class="nav-item"><a href="/index.html"><i class="fas fa-chart-pie"></i> Executive Summary</a></li>
+      <li class="nav-item active"><a href="/threat-dashboard.html"><i class="fas fa-tachometer-alt"></i> Threat Dashboard</a></li>
+      <li class="nav-item"><a href="/threat-details.html?id=THR-2026-001"><i class="fas fa-search-plus"></i> SOC Investigation</a></li>
+      <li class="nav-item"><a href="/awareness.html"><i class="fas fa-graduation-cap"></i> Awareness Center</a></li>
+      <li class="nav-item"><a href="/quiz.html"><i class="fas fa-tasks"></i> Security Quiz</a></li>
+    </ul>
+    <div class="nav-actions">
+      <div class="defensive-mode-tag">
+        <span class="pulse-dot"></span> Defensive Mode Active
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    
+    <!-- Page Header & Indicator Search -->
+    <header class="page-header">
+      <div class="page-title">
+        <h2><i class="fas fa-satellite-dish" style="color:var(--accent-cyan);"></i> SOC Threat Intelligence Console</h2>
+        <p>Defensive telemetry processing, multi-factor risk scoring, passive IOC enrichment, and automated alert correlation.</p>
+      </div>
+    </header>
+
+    <!-- IOC Search Bar -->
+    <div class="search-section">
+      <form id="iocSearchForm" class="search-box-container">
+        <div class="search-input-wrapper">
+          <i class="fas fa-search search-icon"></i>
+          <input type="text" id="iocSearchInput" class="search-input" placeholder="Search Indicator (e.g. 198.51.100.25, login-check.invalid, CVE-2024-3400, SHA-256)..." required>
+        </div>
+        <button type="submit" class="btn-primary">
+          <i class="fas fa-search-location"></i> Enrich IOC
+        </button>
+      </form>
+      <div style="text-align:center; margin-top:0.4rem; font-size:0.75rem; color:var(--text-dim);">
+        <i class="fas fa-lock"></i> Passive Database Search Only. No external host or URL connections are ever made.
+      </div>
+    </div>
+
+    <!-- Top 8 Metric Cards -->
+    <section class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon-wrapper blue"><i class="fas fa-database"></i></div>
+        <div class="stat-content">
+          <span class="stat-label">Total Threat Records</span>
+          <span class="stat-value" id="metricTotalThreats">--</span>
+          <span class="stat-subtext">Defensive feed items</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon-wrapper red"><i class="fas fa-biohazard"></i></div>
+        <div class="stat-content">
+          <span class="stat-label">Critical Threats</span>
+          <span class="stat-value" id="metricCriticalThreats">--</span>
+          <span class="stat-subtext">Immediate triage required</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon-wrapper orange"><i class="fas fa-exclamation-triangle"></i></div>
+        <div class="stat-content">
+          <span class="stat-label">High Severity</span>
+          <span class="stat-value" id="metricHighThreats">--</span>
+          <span class="stat-subtext">High priority telemetry</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon-wrapper cyan"><i class="fas fa-fingerprint"></i></div>
+        <div class="stat-content">
+          <span class="stat-label">Active Indicators</span>
+          <span class="stat-value" id="metricActiveIndicators">--</span>
+          <span class="stat-subtext">IPs, Domains, Hashes</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon-wrapper purple"><i class="fas fa-folder-open"></i></div>
+        <div class="stat-content">
+          <span class="stat-label">Open Investigations</span>
+          <span class="stat-value" id="metricOpenInvestigations">--</span>
+          <span class="stat-subtext">Triage & monitoring</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon-wrapper green"><i class="fas fa-check-double"></i></div>
+        <div class="stat-content">
+          <span class="stat-label">Average Confidence</span>
+          <span class="stat-value" id="metricAvgConfidence">--</span>
+          <span class="stat-subtext">Evidence certainty</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon-wrapper orange"><i class="fas fa-bug"></i></div>
+        <div class="stat-content">
+          <span class="stat-label">Tracked CVEs</span>
+          <span class="stat-value" id="metricTrackedVulns">--</span>
+          <span class="stat-subtext">Vulnerability awareness</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon-wrapper red"><i class="fas fa-bell"></i></div>
+        <div class="stat-content">
+          <span class="stat-label">Active Alerts</span>
+          <span class="stat-value" id="metricActiveAlerts">--</span>
+          <span class="stat-subtext">Correlated SOC queue</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10 Interactive SOC Charts Grid -->
+    <h3 style="font-size:1.25rem; font-weight:700; color:#fff; margin-bottom:1rem; display:flex; align-items:center; gap:0.5rem;">
+      <i class="fas fa-chart-line" style="color:var(--accent-cyan);"></i> Visual Threat Intelligence Analytics (10 Focus Dimensions)
+    </h3>
+
+    <!-- Row 1: Threats Over Time & Severity Distribution -->
+    <div class="charts-grid-2col">
+      <div class="glass-card">
+        <div class="card-header">
+          <div class="card-title"><i class="fas fa-chart-area"></i> 1. Threats Ingested Over Time</div>
+          <span style="font-size:0.75rem; color:var(--text-dim);">Monthly Telemetry Trend</span>
+        </div>
+        <div class="chart-wrapper"><canvas id="chartThreatsOverTime"></canvas></div>
+      </div>
+
+      <div class="glass-card">
+        <div class="card-header">
+          <div class="card-title"><i class="fas fa-chart-pie"></i> 2. Threats by Severity Classification</div>
+          <span style="font-size:0.75rem; color:var(--text-dim);">Triage Tiers</span>
+        </div>
+        <div class="chart-wrapper"><canvas id="chartThreatsBySeverity"></canvas></div>
+      </div>
+    </div>
+
+    <!-- Row 2: Threats by Category & IOC Type Distribution -->
+    <div class="charts-grid-2col">
+      <div class="glass-card">
+        <div class="card-header">
+          <div class="card-title"><i class="fas fa-chart-bar"></i> 3. Threats by Threat Category</div>
+          <span style="font-size:0.75rem; color:var(--text-dim);">Category Volumes</span>
+        </div>
+        <div class="chart-wrapper"><canvas id="chartThreatsByCategory"></canvas></div>
+      </div>
+
+      <div class="glass-card">
+        <div class="card-header">
+          <div class="card-title"><i class="fas fa-cubes"></i> 4. IOC Indicator Type Distribution</div>
+          <span style="font-size:0.75rem; color:var(--text-dim);">Network & Host Artifacts</span>
+        </div>
+        <div class="chart-wrapper"><canvas id="chartIocDistribution"></canvas></div>
+      </div>
+    </div>
+
+    <!-- Row 3: MITRE ATT&CK Tactics & Risk Score Distribution -->
+    <div class="charts-grid-2col">
+      <div class="glass-card">
+        <div class="card-header">
+          <div class="card-title"><i class="fas fa-crosshairs"></i> 5. Top MITRE ATT&CK Tactics Mapped</div>
+          <span style="font-size:0.75rem; color:var(--text-dim);">Adversary Behaviors</span>
+        </div>
+        <div class="chart-wrapper"><canvas id="chartAttackTactics"></canvas></div>
+      </div>
+
+      <div class="glass-card">
+        <div class="card-header">
+          <div class="card-title"><i class="fas fa-tachometer-alt"></i> 6. Risk Score Distribution (0-100)</div>
+          <span style="font-size:0.75rem; color:var(--text-dim);">Multi-Factor Histogram</span>
+        </div>
+        <div class="chart-wrapper"><canvas id="chartRiskDistribution"></canvas></div>
+      </div>
+    </div>
+
+    <!-- Row 4: Confidence Distribution & Vulnerabilities by Severity -->
+    <div class="charts-grid-2col">
+      <div class="glass-card">
+        <div class="card-header">
+          <div class="card-title"><i class="fas fa-award"></i> 7. Intelligence Confidence Distribution</div>
+          <span style="font-size:0.75rem; color:var(--text-dim);">Evidence Certainty</span>
+        </div>
+        <div class="chart-wrapper"><canvas id="chartConfidenceDistribution"></canvas></div>
+      </div>
+
+      <div class="glass-card">
+        <div class="card-header">
+          <div class="card-title"><i class="fas fa-shield-virus"></i> 8. Tracked Vulnerabilities by Severity</div>
+          <span style="font-size:0.75rem; color:var(--text-dim);">CVE Exposure Profiles</span>
+        </div>
+        <div class="chart-wrapper"><canvas id="chartVulnsBySeverity"></canvas></div>
+      </div>
+    </div>
+
+    <!-- Row 5: Top Categories Polar & Threat Status Distribution -->
+    <div class="charts-grid-2col">
+      <div class="glass-card">
+        <div class="card-header">
+          <div class="card-title"><i class="fas fa-compass"></i> 9. Top Threat Categories (Polar View)</div>
+          <span style="font-size:0.75rem; color:var(--text-dim);">Threat Volume Density</span>
+        </div>
+        <div class="chart-wrapper"><canvas id="chartTopCategories"></canvas></div>
+      </div>
+
+      <div class="glass-card">
+        <div class="card-header">
+          <div class="card-title"><i class="fas fa-tasks"></i> 10. Threat Lifecycle Status Distribution</div>
+          <span style="font-size:0.75rem; color:var(--text-dim);">SOC Workflow Lifecycle</span>
+        </div>
+        <div class="chart-wrapper"><canvas id="chartStatusDistribution"></canvas></div>
+      </div>
+    </div>
+
+    <!-- Filterable Recent Threats Table -->
+    <section class="glass-card" style="margin-top:2rem;">
+      <div class="card-header">
+        <div class="card-title"><i class="fas fa-list-ul"></i> Threat Intelligence Telemetry Feed</div>
+        <span style="font-size:0.75rem; color:var(--text-dim);">Filter, Sort, and Triage Indicators</span>
+      </div>
+
+      <!-- Filters Toolbar -->
+      <div class="filters-bar">
+        <select id="filterCategory" class="filter-select">
+          <option value="">All Categories</option>
+          <option value="PHISHING">Phishing</option>
+          <option value="MALWARE">Malware</option>
+          <option value="RANSOMWARE">Ransomware</option>
+          <option value="CREDENTIAL THREATS">Credential Threats</option>
+          <option value="WEB THREATS">Web Threats</option>
+          <option value="NETWORK THREATS">Network Threats</option>
+          <option value="VULNERABILITY EXPOSURE">Vulnerability Exposure</option>
+          <option value="SOCIAL ENGINEERING">Social Engineering</option>
+          <option value="DATA EXPOSURE">Data Exposure</option>
+          <option value="ACCOUNT SECURITY">Account Security</option>
+        </select>
+
+        <select id="filterSeverity" class="filter-select">
+          <option value="">All Severities</option>
+          <option value="CRITICAL">Critical</option>
+          <option value="HIGH">High</option>
+          <option value="MEDIUM">Medium</option>
+          <option value="LOW">Low</option>
+          <option value="INFORMATIONAL">Informational</option>
+        </select>
+
+        <select id="filterIndicatorType" class="filter-select">
+          <option value="">All Indicator Types</option>
+          <option value="IP ADDRESS">IP Address</option>
+          <option value="DOMAIN">Domain</option>
+          <option value="URL">URL</option>
+          <option value="FILE HASH">File Hash</option>
+          <option value="EMAIL/SENDER DOMAIN">Email Sender</option>
+          <option value="CVE ID">CVE ID</option>
+        </select>
+
+        <select id="filterStatus" class="filter-select">
+          <option value="">All Statuses</option>
+          <option value="NEW">New</option>
+          <option value="UNDER_REVIEW">Under Review</option>
+          <option value="MONITORING">Monitoring</option>
+          <option value="CLOSED">Closed</option>
+          <option value="FALSE_POSITIVE">False Positive</option>
+        </select>
+
+        <select id="sortBy" class="filter-select">
+          <option value="last_seen">Sort: Newest Sighting</option>
+          <option value="risk_score">Sort: Highest Risk</option>
+          <option value="confidence_score">Sort: Highest Confidence</option>
+          <option value="first_seen">Sort: First Seen</option>
+        </select>
+      </div>
+
+      <!-- Table -->
+      <div class="table-responsive">
+        <table class="cyber-table">
+          <thead>
+            <tr>
+              <th>Threat ID</th>
+              <th>Threat Name</th>
+              <th>Category</th>
+              <th>Indicator Value</th>
+              <th>Severity</th>
+              <th>Risk Score</th>
+              <th>Confidence</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="threatsTableBody">
+            <!-- Populated via dashboard.js -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Table Pagination Footer -->
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-top:1.25rem; padding-top:1rem; border-top:1px solid var(--border-color); flex-wrap:wrap; gap:1rem;">
+        <span id="pageIndicator" style="font-size:0.82rem; color:var(--text-dim);">Page 1 of 1</span>
+        <div style="display:flex; gap:0.5rem;">
+          <button id="prevPageBtn" class="btn-secondary" disabled><i class="fas fa-chevron-left"></i> Previous</button>
+          <button id="nextPageBtn" class="btn-secondary">Next <i class="fas fa-chevron-right"></i></button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- IOC Search Enrichment Modal -->
+  <div id="iocModal" class="modal-backdrop">
+    <div class="modal-container">
+      <button class="modal-close-btn" onclick="closeIocModal()"><i class="fas fa-times"></i></button>
+      <div id="iocModalBody">
+        <!-- Enriched data dynamically rendered -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-disclaimer">
+      DEFENSIVE CYBERSECURITY EDUCATIONAL PLATFORM &bull; STRICTLY SANITIZED & SYNTHETIC TELEMETRY
+    </div>
+    <p>This project does not execute malware, exploit vulnerabilities, or contact external systems. All indicators are analyzed passively as data.</p>
+  </footer>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/dashboard.js"></script>
+</body>
+</html>
